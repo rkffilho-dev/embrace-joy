@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { BookOpen, Check, ChevronDown, Clock3, Gift, LockKeyhole, MonitorSmartphone, ShieldCheck, Sparkles } from "lucide-react";
 
 import heroImg from "@/assets/hero-magazines.jpg";
 import packA from "@/assets/pack-a.jpg";
@@ -8,209 +9,162 @@ import packC from "@/assets/pack-c.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Acervo Clássico — Packs de Revistas Vintage" },
-      {
-        name: "description",
-        content:
-          "Coleções digitalizadas em alta resolução de revistas clássicas de 1950 a 1980, prontas para download.",
-      },
-      { property: "og:title", content: "Acervo Clássico — Packs de Revistas Vintage" },
-      {
-        property: "og:description",
-        content:
-          "Coleções digitalizadas em alta resolução de revistas clássicas de 1950 a 1980, prontas para download.",
-      },
+      { title: "Banca Digital — Revistas que marcaram gerações" },
+      { name: "description", content: "Uma banca digital para redescobrir revistas clássicas, quadrinhos e coleções de outras épocas." },
+      { property: "og:title", content: "Banca Digital — A banca que marcou gerações agora cabe no seu bolso" },
+      { property: "og:description", content: "Entre, escolha uma prateleira e redescubra publicações de outras épocas em uma experiência digital organizada." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
 });
 
-const packs = [
-  {
-    img: packA,
-    nome: "Pack Moda & Elegância",
-    decada: "1950 — 1965",
-    edicoes: 48,
-    preco: "R$ 39",
-    descricao: "Capas e editoriais de moda restaurados, com páginas duplas em 600 dpi.",
-  },
-  {
-    img: packB,
-    nome: "Pack Vida & Lar",
-    decada: "1953 — 1972",
-    edicoes: 62,
-    preco: "R$ 49",
-    descricao: "Revistas de casa, jardim e reportagem fotográfica da era dourada da imprensa.",
-  },
-  {
-    img: packC,
-    nome: "Pack Ciência & Cultura",
-    decada: "1958 — 1980",
-    edicoes: 35,
-    preco: "R$ 45",
-    descricao: "Ilustrações científicas, tipografia modernista e ensaios culturais raros.",
-  },
+const shelves = [
+  { img: packA, eyebrow: "PRATELEIRA 01", title: "Infância & diversão", copy: "Publicações que fizeram parte das tardes, férias e descobertas de uma geração." },
+  { img: packB, eyebrow: "PRATELEIRA 02", title: "Variedades & clássicos", copy: "Edições de diferentes épocas reunidas para você navegar sem garimpar arquivo por arquivo." },
+  { img: packC, eyebrow: "PRATELEIRA 03", title: "Cultura & curiosidades", copy: "Capas, matérias e páginas que ajudam a reconstruir o jeito de pensar e viver de outras décadas." },
 ];
 
-const beneficios = [
-  {
-    titulo: "Digitalização 600 dpi",
-    texto: "Cada página escaneada sem compressão destrutiva, com cores calibradas.",
-  },
-  {
-    titulo: "Download imediato",
-    texto: "Arquivos em PDF pesquisável e JPEG separado por capa e página.",
-  },
-  {
-    titulo: "Uso livre em projetos",
-    texto: "Licença para colagem, moodboard, impressão e conteúdo próprio.",
-  },
+const faq = [
+  ["Como funciona o acesso?", "Depois da confirmação do pagamento, você recebe as instruções para acessar a área de membros e as coleções incluídas na sua compra."],
+  ["Consigo ler no celular?", "Sim. O acervo digital pode ser acessado em celular, tablet ou computador, de acordo com o formato disponibilizado em cada coleção."],
+  ["É uma assinatura mensal?", "Não. A oferta principal é apresentada como pagamento único. Antes de finalizar, confira no checkout exatamente o que está incluído."],
+  ["O que fica bloqueado dentro da plataforma?", "Coleções adicionais podem aparecer como prateleiras separadas. Elas não fazem parte da compra inicial e só são liberadas se você decidir adquiri-las."],
 ];
+
+function CTA({ children = "QUERO ENTRAR NA BANCA" }: { children?: React.ReactNode }) {
+  return <a href="#oferta" className="cta">{children}<span aria-hidden>→</span></a>;
+}
 
 function Index() {
   return (
-    <div className="min-h-screen paper-grain">
-      <header className="border-b border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <span className="font-display text-lg font-extrabold tracking-[0.2em] uppercase">
-            Acervo Clássico
-          </span>
-          <nav className="hidden gap-8 text-sm tracking-widest uppercase md:flex">
-            <a href="#packs" className="hover:text-primary">
-              Packs
-            </a>
-            <a href="#sobre" className="hover:text-primary">
-              Sobre
-            </a>
-            <a href="#faq" className="hover:text-primary">
-              FAQ
-            </a>
-          </nav>
-        </div>
+    <main className="min-h-screen overflow-hidden">
+      <div className="news-strip">
+        <div><span>EDIÇÃO ESPECIAL</span><b> SUA BANCA DIGITAL ESTÁ ABERTA</b><span> ACESSO ONLINE</span></div>
+      </div>
+
+      <header className="site-header">
+        <a className="brand" href="#top" aria-label="Banca Digital"><span>BANCA</span><strong>DIGITAL</strong></a>
+        <div className="header-note">REVISTAS • MEMÓRIAS • OUTRAS ÉPOCAS</div>
+        <a href="#oferta" className="header-ticket">ENTRAR NA BANCA</a>
       </header>
 
-      <section className="border-b border-border">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 lg:grid-cols-2 lg:py-20">
-          <div>
-            <p className="text-xs tracking-[0.35em] text-primary uppercase">
-              Edição colecionador · Vol. 12
-            </p>
-            <h1 className="mt-5 text-5xl leading-[0.95] font-extrabold lg:text-6xl">
-              Packs de revistas clássicas, digitalizadas página por página
-            </h1>
-            <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-              Mais de 140 edições originais de 1950 a 1980 — moda, lar, ciência e cultura — prontas
-              para você folhear, imprimir e usar nos seus projetos.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#packs"
-                className="rounded-sm bg-primary px-6 py-3 text-sm font-semibold tracking-widest text-primary-foreground uppercase transition-opacity hover:opacity-90"
-              >
-                Ver os packs
-              </a>
-              <a
-                href="#sobre"
-                className="rounded-sm border border-foreground px-6 py-3 text-sm font-semibold tracking-widest uppercase transition-colors hover:bg-secondary"
-              >
-                Como funciona
-              </a>
-            </div>
-          </div>
-          <div className="relative">
-            <div className="absolute -inset-3 -rotate-1 border border-border bg-secondary" />
-            <img
-              src={heroImg}
-              alt="Pilha de revistas clássicas dos anos 1960 e 1970"
-              width={1600}
-              height={1008}
-              className="relative w-full object-cover shadow-lg"
-            />
-          </div>
+      <section id="top" className="hero">
+        <div className="hero-copy">
+          <div className="stamp">ABERTA 24 HORAS • DIRETO NO SEU CELULAR</div>
+          <p className="kicker">A banca de jornal mudou. A sensação de descobrir uma revista, não.</p>
+          <h1>A BANCA QUE MARCOU GERAÇÕES <em>AGORA CABE NO SEU BOLSO.</em></h1>
+          <p className="hero-lead">Entre, escolha uma prateleira e redescubra revistas e publicações de outras épocas em uma experiência digital organizada para folhear quando quiser.</p>
+          <div className="hero-actions"><CTA /><a href="#prateleiras" className="text-link">DAR UMA OLHADA PRIMEIRO ↓</a></div>
+          <div className="mini-proof"><span><Clock3 /> acesso digital</span><span><MonitorSmartphone /> celular, tablet e PC</span><span><ShieldCheck /> compra protegida</span></div>
+        </div>
+        <div className="hero-visual">
+          <div className="poster-tag">HOJE NA BANCA</div>
+          <img src={heroImg} alt="Revistas clássicas reunidas em uma banca" />
+          <div className="price-sticker"><small>UMA BANCA</small><b>INTEIRA</b><span>NO SEU BOLSO</span></div>
+          <div className="tape tape-one" /><div className="tape tape-two" />
         </div>
       </section>
 
-      <section id="packs" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="flex items-end justify-between border-b border-border pb-4">
-          <h2 className="text-3xl font-extrabold">Os packs</h2>
-          <span className="text-xs tracking-[0.3em] text-muted-foreground uppercase">
-            3 coleções
-          </span>
+      <section className="memory-band">
+        <p>VOCÊ LEMBRA DE...</p>
+        <div className="memory-marquee"><span>ESPERAR A PRÓXIMA EDIÇÃO?</span><i>✦</i><span>ESCOLHER PELA CAPA?</span><i>✦</i><span>FOLHEAR SEM VER A HORA PASSAR?</span></div>
+      </section>
+
+      <section id="prateleiras" className="shelves section">
+        <div className="section-heading">
+          <span className="section-number">01 / PASSE PELAS PRATELEIRAS</span>
+          <h2>NÃO É UMA PASTA JOGADA.<br/><em>É UMA BANCA PARA EXPLORAR.</em></h2>
+          <p>Em vez de vender só “milhares de PDFs”, a proposta é simples: organizar a descoberta como uma banca — por temas, épocas e coleções.</p>
         </div>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
-          {packs.map((p) => (
-            <article key={p.nome} className="group border border-border bg-card">
-              <img
-                src={p.img}
-                alt={p.nome}
-                loading="lazy"
-                width={912}
-                height={1104}
-                className="aspect-[4/5] w-full object-cover grayscale-[15%] transition-all group-hover:grayscale-0"
-              />
-              <div className="p-6">
-                <p className="text-xs tracking-[0.25em] text-accent-foreground uppercase">
-                  {p.decada}
-                </p>
-                <h3 className="mt-2 text-2xl font-bold">{p.nome}</h3>
-                <p className="mt-3 text-sm text-muted-foreground">{p.descricao}</p>
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-                  <span className="text-sm text-muted-foreground">{p.edicoes} edições</span>
-                  <span className="font-display text-2xl font-bold text-primary">{p.preco}</span>
-                </div>
-                <button className="mt-4 w-full rounded-sm bg-foreground px-4 py-3 text-xs font-semibold tracking-widest text-background uppercase transition-opacity hover:opacity-90">
-                  Comprar pack
-                </button>
+        <div className="shelf-grid">
+          {shelves.map((s) => <article className="shelf-card" key={s.title}>
+            <div className="shelf-image"><img src={s.img} alt="" /><span>{s.eyebrow}</span></div>
+            <div className="shelf-copy"><h3>{s.title}</h3><p>{s.copy}</p><b>VER NA BANCA →</b></div>
+          </article>)}
+        </div>
+      </section>
+
+      <section className="quantity">
+        <div className="quantity-paper">
+          <span>EDIÇÃO EXTRA</span>
+          <h2>A BANCA É MAIOR<br/>DO QUE PARECE.</h2>
+          <p>Um acervo amplo de revistas digitalizadas, organizado para você encontrar o que quer sem depender de buscas intermináveis pela internet.</p>
+          <div className="quantity-note"><Sparkles/><div><b>O número exato entra aqui quando o catálogo estiver fechado.</b><small>Não vamos inventar “80 mil” ou “200 mil” só porque concorrentes usam números grandes.</small></div></div>
+        </div>
+      </section>
+
+      <section className="platform section dark-section">
+        <div className="section-heading light">
+          <span className="section-number">02 / POR DENTRO DA BANCA</span>
+          <h2>MEMÓRIA ANTIGA.<br/><em>EXPERIÊNCIA ATUAL.</em></h2>
+          <p>O produto não termina no checkout. A área de membros vira sua banca particular, com o que você comprou à mão e novas prateleiras para descobrir depois.</p>
+        </div>
+        <div className="platform-window">
+          <div className="window-top"><span/><span/><span/><b>BANCA DIGITAL / MINHAS PRATELEIRAS</b></div>
+          <div className="window-body">
+            <aside><strong>MINHA BANCA</strong><a className="active">Início</a><a>Minhas revistas</a><a>Bônus</a><a>Novidades</a></aside>
+            <div className="library">
+              <div className="library-head"><div><small>BOM TE VER POR AQUI</small><h3>Escolha uma prateleira</h3></div><span>⌕ Buscar na banca</span></div>
+              <div className="library-grid">
+                <div className="lib-card open"><BookOpen/><b>Revistas clássicas</b><small>LIBERADO</small></div>
+                <div className="lib-card open"><Gift/><b>HQs bônus</b><small>LIBERADO</small></div>
+                <div className="lib-card locked"><LockKeyhole/><b>Banca dos Games</b><small>COLEÇÃO EXTRA</small></div>
+                <div className="lib-card locked"><LockKeyhole/><b>Edições especiais</b><small>COLEÇÃO EXTRA</small></div>
               </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="sobre" className="border-y border-border bg-secondary/60">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-3">
-          {beneficios.map((b) => (
-            <div key={b.titulo}>
-              <h3 className="text-xl font-bold">{b.titulo}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{b.texto}</p>
             </div>
-          ))}
+          </div>
+        </div>
+        <p className="mockup-note">Demonstração visual da experiência. A organização final acompanha o catálogo real.</p>
+      </section>
+
+      <section className="included section">
+        <div className="section-heading">
+          <span className="section-number">03 / SUA COMPRA</span>
+          <h2>O QUE VOCÊ LEVA<br/><em>DA BANCA HOJE.</em></h2>
+        </div>
+        <div className="receipt">
+          <div className="receipt-head"><b>BANCA DIGITAL</b><span>COMPROVANTE DE ACESSO</span></div>
+          <div className="receipt-lines">
+            <div><span>Acervo principal de revistas</span><b>INCLUÍDO</b></div>
+            <div><span>Organização por coleções</span><b>INCLUÍDO</b></div>
+            <div><span>Acesso pela área de membros</span><b>INCLUÍDO</b></div>
+            <div><span>HQs selecionadas</span><b>BÔNUS</b></div>
+            <div><span>Acesso em múltiplos dispositivos</span><b>INCLUÍDO</b></div>
+          </div>
+          <div className="receipt-total"><span>SEM MENSALIDADE</span><strong>PAGAMENTO ÚNICO</strong></div>
         </div>
       </section>
 
-      <section id="faq" className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className="text-3xl font-extrabold">Perguntas frequentes</h2>
-        <dl className="mt-8 divide-y divide-border border-y border-border">
-          <div className="py-5">
-            <dt className="font-semibold">Como recebo os arquivos?</dt>
-            <dd className="mt-2 text-sm text-muted-foreground">
-              O link de download é liberado assim que o pagamento é confirmado.
-            </dd>
-          </div>
-          <div className="py-5">
-            <dt className="font-semibold">Posso usar as imagens comercialmente?</dt>
-            <dd className="mt-2 text-sm text-muted-foreground">
-              Sim, para colagens, impressões e conteúdo próprio; a revenda dos arquivos não é
-              permitida.
-            </dd>
-          </div>
-          <div className="py-5">
-            <dt className="font-semibold">Existe pack com todas as coleções?</dt>
-            <dd className="mt-2 text-sm text-muted-foreground">
-              Sim — o combo completo sai por R$ 109 e inclui as edições novas do próximo ano.
-            </dd>
-          </div>
-        </dl>
+      <section className="bonus">
+        <div className="bonus-inner">
+          <div><span className="section-number">04 / PRESENTE DO JORNALEIRO</span><h2>PASSOU NA BANCA?<br/><em>LEVA HQ DE BÔNUS.</em></h2><p>Uma seleção extra de quadrinhos para complementar a experiência. Sem transformar a oferta principal numa lista infinita de “bônus” que ninguém entende.</p></div>
+          <div className="bonus-ticket"><Gift/><small>BÔNUS DA CASA</small><strong>HQs<br/>DIGITAIS</strong><span>LIBERADAS COM A COMPRA</span></div>
+        </div>
       </section>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-xs tracking-widest text-muted-foreground uppercase sm:flex-row sm:justify-between">
-          <span>Acervo Clássico</span>
-          <span>Arquivo digital de revistas 1950 — 1980</span>
+      <section id="oferta" className="offer section">
+        <div className="offer-card">
+          <div className="offer-left"><span className="stamp">OFERTA DE INAUGURAÇÃO</span><h2>SUA BANCA,<br/><em>SEMPRE À MÃO.</em></h2><p>Entre pelo low ticket, conheça o acervo e acesse sua coleção pela plataforma.</p><ul><li><Check/>Acesso ao acervo anunciado</li><li><Check/>HQs selecionadas de bônus</li><li><Check/>Área de membros organizada</li><li><Check/>Acesso digital após confirmação</li></ul></div>
+          <div className="offer-price"><small>VALOR DE LANÇAMENTO</small><div className="price-placeholder">R$ <b>--,--</b></div><p>Defina o preço final antes de publicar.</p><a className="cta big" href="#checkout">QUERO ENTRAR NA BANCA <span>→</span></a><div className="secure"><ShieldCheck/> Compra protegida • acesso digital</div></div>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      <section className="guarantee section">
+        <ShieldCheck/>
+        <div><span className="section-number">COMPRA TRANQUILA</span><h2>7 DIAS PARA CONHECER A BANCA.</h2><p>Use esta seção somente se sua oferta/checkout realmente adotar a garantia anunciada. O texto final deve refletir as condições reais da venda.</p></div>
+      </section>
+
+      <section className="faq section">
+        <div className="section-heading"><span className="section-number">ÚLTIMA PÁGINA</span><h2>PERGUNTAS DE<br/><em>BALCÃO.</em></h2></div>
+        <div className="faq-list">{faq.map(([q,a]) => <details key={q}><summary>{q}<ChevronDown/></summary><p>{a}</p></details>)}</div>
+      </section>
+
+      <section className="final-cta">
+        <small>A BANCA ESTÁ ABERTA</small><h2>QUAL PRATELEIRA<br/>VOCÊ VAI ABRIR PRIMEIRO?</h2><CTA>ENTRAR NA BANCA DIGITAL</CTA>
+      </section>
+
+      <footer><div className="brand footer-brand"><span>BANCA</span><strong>DIGITAL</strong></div><p>Uma experiência digital inspirada nas bancas que marcaram gerações.</p><small>© 2026 • Conteúdo digital. Use somente materiais que você tenha direito de distribuir.</small></footer>
+    </main>
   );
 }
