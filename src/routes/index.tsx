@@ -1,170 +1,101 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BookOpen, Check, ChevronDown, Clock3, Gift, LockKeyhole, MonitorSmartphone, ShieldCheck, Sparkles } from "lucide-react";
-
+import { Check, ChevronDown, Gift, LockKeyhole, MonitorSmartphone, Play, ShieldCheck } from "lucide-react";
 import heroImg from "@/assets/hero-magazines.jpg";
 import packA from "@/assets/pack-a.jpg";
 import packB from "@/assets/pack-b.jpg";
 import packC from "@/assets/pack-c.jpg";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Banca Digital — Revistas que marcaram gerações" },
-      { name: "description", content: "Uma banca digital para redescobrir revistas clássicas, quadrinhos e coleções de outras épocas." },
-      { property: "og:title", content: "Banca Digital — A banca que marcou gerações agora cabe no seu bolso" },
-      { property: "og:description", content: "Entre, escolha uma prateleira e redescubra publicações de outras épocas em uma experiência digital organizada." },
-      { property: "og:type", content: "website" },
-    ],
-  }),
-  component: Index,
-});
+export const Route=createFileRoute("/")({head:()=>({meta:[{title:"Banca Digital — Revistas antigas em uma banca online"},{name:"description",content:"Redescubra revistas antigas por categoria e época em uma banca digital organizada."}]}),component:Index});
 
-const shelves = [
-  { img: packA, eyebrow: "PRATELEIRA 01", title: "Infância & diversão", copy: "Publicações que fizeram parte das tardes, férias e descobertas de uma geração." },
-  { img: packB, eyebrow: "PRATELEIRA 02", title: "Variedades & clássicos", copy: "Edições de diferentes épocas reunidas para você navegar sem garimpar arquivo por arquivo." },
-  { img: packC, eyebrow: "PRATELEIRA 03", title: "Cultura & curiosidades", copy: "Capas, matérias e páginas que ajudam a reconstruir o jeito de pensar e viver de outras décadas." },
+const coverPool=[heroImg,packA,packB,packC,packA,heroImg,packC,packB,heroImg,packC,packA,packB];
+const categories=[
+ {name:"Esportes",sub:"Futebol, automobilismo e grandes momentos",covers:coverPool},
+ {name:"Quentes",sub:"Publicações adultas e ensaios de outras épocas",covers:[...coverPool].reverse(),adult:true},
+ {name:"Moda",sub:"Estilo, comportamento e tendências de cada década",covers:[packB,packA,heroImg,packC,...coverPool]},
+ {name:"Adolescentes",sub:"Música, ídolos, comportamento e cultura jovem",covers:[packC,heroImg,packA,packB,...coverPool]},
 ];
-
-const faq = [
-  ["Como funciona o acesso?", "Depois da confirmação do pagamento, você recebe as instruções para acessar a área de membros e as coleções incluídas na sua compra."],
-  ["Consigo ler no celular?", "Sim. O acervo digital pode ser acessado em celular, tablet ou computador, de acordo com o formato disponibilizado em cada coleção."],
-  ["É uma assinatura mensal?", "Não. A oferta principal é apresentada como pagamento único. Antes de finalizar, confira no checkout exatamente o que está incluído."],
-  ["O que fica bloqueado dentro da plataforma?", "Coleções adicionais podem aparecer como prateleiras separadas. Elas não fazem parte da compra inicial e só são liberadas se você decidir adquiri-las."],
+const faq=[
+ ["Como recebo as revistas?","Após a confirmação do pagamento, o acesso à área de membros é liberado conforme as instruções da oferta."],
+ ["Posso acessar pelo celular?","Sim. A experiência foi pensada para celular, tablet e computador."],
+ ["É assinatura?","A oferta principal será de pagamento único. O checkout final mostrará exatamente o que está incluído."],
+ ["As coleções bloqueadas estão incluídas?","Não. Elas aparecem como novas coleções disponíveis dentro da plataforma e só são liberadas se você optar por comprá-las."],
 ];
-
-function CTA({ children = "QUERO ENTRAR NA BANCA" }: { children?: React.ReactNode }) {
-  return <a href="#oferta" className="cta">{children}<span aria-hidden>→</span></a>;
+function CTA({children="QUERO ACESSAR A BANCA"}:{children?:React.ReactNode}){return <a className="cta" href="#oferta">{children}<span>→</span></a>}
+function CoverRail({category,sub,covers,reverse=false,adult=false}:{category:string;sub:string;covers:string[];reverse?:boolean;adult?:boolean}){
+ const loop=[...covers,...covers];
+ return <div className="rail-block">
+  <div className="rail-head"><div><small>CATEGORIA</small><h3>{category}</h3></div><p>{sub}</p></div>
+  <div className={"cover-viewport "+(adult?"adult":"")}><div className={"cover-track "+(reverse?"reverse":"")}>{loop.map((src,i)=><div className="mag-cover" key={i}><img src={src} alt="" /><span>{adult?"18+":"EDIÇÃO DIGITAL"}</span></div>)}</div></div>
+ </div>
 }
+function Index(){return <main>
+ <div className="topline">BANCA DIGITAL <span>•</span> REVISTAS DE OUTRAS ÉPOCAS, ORGANIZADAS PARA REDESCOBRIR</div>
+ <header><a className="logo" href="#top"><b>BANCA</b><span>DIGITAL</span></a><nav><a href="#categorias">Categorias</a><a href="#plataforma">Como funciona</a><a href="#oferta">Acesso</a></nav><a className="mini-cta" href="#oferta">ENTRAR NA BANCA</a></header>
 
-function Index() {
-  return (
-    <main className="min-h-screen overflow-hidden">
-      <div className="news-strip">
-        <div><span>EDIÇÃO ESPECIAL</span><b> SUA BANCA DIGITAL ESTÁ ABERTA</b><span> ACESSO ONLINE</span></div>
-      </div>
+ <section className="hero" id="top">
+  <div className="hero-copy">
+   <div className="eyebrow">REVISTAS • HQs • CULTURA POP • OUTRAS ÉPOCAS</div>
+   <h1>AS REVISTAS QUE SUMIRAM DAS BANCAS <em>NÃO PRECISAM SUMIR DA SUA MEMÓRIA.</em></h1>
+   <p>Uma banca digital feita para quem sente falta de abrir uma revista e descobrir o que tinha dentro — agora organizada por categorias e pronta para acessar online.</p>
+   <div className="hero-buttons"><CTA/><a className="ghost" href="#categorias">VER O QUE TEM NA BANCA ↓</a></div>
+   <div className="trust"><span><Check/> acesso digital</span><span><MonitorSmartphone/> celular, tablet e PC</span><span><Gift/> HQs de bônus</span></div>
+  </div>
+  <div className="video-wrap">
+   <div className="video-label"><span>APERTE O PLAY</span><b>VEJA A BANCA POR DENTRO</b></div>
+   <div className="video-frame">
+    <video controls playsInline preload="metadata" poster={heroImg}>
+      <source src="/video-banca.mp4" type="video/mp4"/>
+    </video>
+    <div className="video-empty"><Play/><b>VÍDEO HERO 9:16</b><small>Adicione o arquivo <code>public/video-banca.mp4</code></small></div>
+   </div>
+   <div className="video-caption">Do balcão para a tela — sem perder a graça de procurar a próxima revista.</div>
+  </div>
+ </section>
 
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Banca Digital"><span>BANCA</span><strong>DIGITAL</strong></a>
-        <div className="header-note">REVISTAS • MEMÓRIAS • OUTRAS ÉPOCAS</div>
-        <a href="#oferta" className="header-ticket">ENTRAR NA BANCA</a>
-      </header>
+ <section className="hook"><span>QUAL ERA A SUA PRATELEIRA?</span><b>ESPORTE</b><i>•</i><b>MODA</b><i>•</i><b>ADOLESCENTES</b><i>•</i><b>HQs</b><i>•</i><b>VARIEDADES</b></section>
 
-      <section id="top" className="hero">
-        <div className="hero-copy">
-          <div className="stamp">ABERTA 24 HORAS • DIRETO NO SEU CELULAR</div>
-          <p className="kicker">A banca de jornal mudou. A sensação de descobrir uma revista, não.</p>
-          <h1>A BANCA QUE MARCOU GERAÇÕES <em>AGORA CABE NO SEU BOLSO.</em></h1>
-          <p className="hero-lead">Entre, escolha uma prateleira e redescubra revistas e publicações de outras épocas em uma experiência digital organizada para folhear quando quiser.</p>
-          <div className="hero-actions"><CTA /><a href="#prateleiras" className="text-link">DAR UMA OLHADA PRIMEIRO ↓</a></div>
-          <div className="mini-proof"><span><Clock3 /> acesso digital</span><span><MonitorSmartphone /> celular, tablet e PC</span><span><ShieldCheck /> compra protegida</span></div>
-        </div>
-        <div className="hero-visual">
-          <div className="poster-tag">HOJE NA BANCA</div>
-          <img src={heroImg} alt="Revistas clássicas reunidas em uma banca" />
-          <div className="price-sticker"><small>UMA BANCA</small><b>INTEIRA</b><span>NO SEU BOLSO</span></div>
-          <div className="tape tape-one" /><div className="tape tape-two" />
-        </div>
-      </section>
+ <section className="discovery" id="categorias">
+  <div className="intro"><small>ENTRE E OLHE À VONTADE</small><h2>UMA BANCA NÃO É FEITA DE TRÊS CARDS.<br/><em>É FEITA DE CAPAS.</em></h2><p>Aqui o produto aparece antes da explicação: fileiras de revistas, separadas como você procuraria numa banca de verdade.</p></div>
+  {categories.map((c,i)=><CoverRail key={c.name} {...c} reverse={i%2===1}/>)}
+ </section>
 
-      <section className="memory-band">
-        <p>VOCÊ LEMBRA DE...</p>
-        <div className="memory-marquee"><span>ESPERAR A PRÓXIMA EDIÇÃO?</span><i>✦</i><span>ESCOLHER PELA CAPA?</span><i>✦</i><span>FOLHEAR SEM VER A HORA PASSAR?</span></div>
-      </section>
+ <section className="era">
+  <div><small>PROCURE PELA ÉPOCA</small><h2>QUAL DELAS<br/>TE PEGA PRIMEIRO?</h2></div>
+  <div className="era-grid"><button>ANOS 70</button><button>ANOS 80</button><button>ANOS 90</button><button>ANOS 2000</button></div>
+ </section>
 
-      <section id="prateleiras" className="shelves section">
-        <div className="section-heading">
-          <span className="section-number">01 / PASSE PELAS PRATELEIRAS</span>
-          <h2>NÃO É UMA PASTA JOGADA.<br/><em>É UMA BANCA PARA EXPLORAR.</em></h2>
-          <p>Em vez de vender só “milhares de PDFs”, a proposta é simples: organizar a descoberta como uma banca — por temas, épocas e coleções.</p>
-        </div>
-        <div className="shelf-grid">
-          {shelves.map((s) => <article className="shelf-card" key={s.title}>
-            <div className="shelf-image"><img src={s.img} alt="" /><span>{s.eyebrow}</span></div>
-            <div className="shelf-copy"><h3>{s.title}</h3><p>{s.copy}</p><b>VER NA BANCA →</b></div>
-          </article>)}
-        </div>
-      </section>
+ <section className="showcase">
+  <div className="showcase-copy"><small>NÃO É SÓ QUANTIDADE</small><h2>É ABRIR UMA CAPA<br/>E LEMBRAR NA HORA.</h2><p>O tamanho do acervo entra como prova de valor. O desejo vem de reconhecer uma época, uma capa, um assunto que você não via há anos.</p><CTA>QUERO VER MINHA BANCA</CTA></div>
+  <div className="cover-wall">{coverPool.slice(0,9).map((src,i)=><img src={src} alt="" key={i}/>)}</div>
+ </section>
 
-      <section className="quantity">
-        <div className="quantity-paper">
-          <span>EDIÇÃO EXTRA</span>
-          <h2>A BANCA É MAIOR<br/>DO QUE PARECE.</h2>
-          <p>Um acervo amplo de revistas digitalizadas, organizado para você encontrar o que quer sem depender de buscas intermináveis pela internet.</p>
-          <div className="quantity-note"><Sparkles/><div><b>O número exato entra aqui quando o catálogo estiver fechado.</b><small>Não vamos inventar “80 mil” ou “200 mil” só porque concorrentes usam números grandes.</small></div></div>
-        </div>
-      </section>
+ <section className="platform" id="plataforma">
+  <div className="platform-copy"><small>SUA BANCA PARTICULAR</small><h2>TUDO ORGANIZADO.<br/><em>SEM CAÇAR LINK.</em></h2><p>Depois da compra, você entra em uma área de membros simples: suas coleções ficam liberadas e outras podem aparecer como novas prateleiras para desbloquear.</p></div>
+  <div className="app">
+   <div className="app-top"><b>BANCA DIGITAL</b><span>Pesquisar revista...</span></div>
+   <div className="app-body">
+    <aside><b>Minha banca</b><span className="on">Início</span><span>Revistas</span><span>Bônus</span><span>Novidades</span></aside>
+    <div className="app-content"><div className="app-title"><small>CONTINUE EXPLORANDO</small><h3>Suas coleções</h3></div><div className="app-cards">
+      <article><img src={packA} alt=""/><b>Revistas clássicas</b><span>LIBERADO</span></article>
+      <article><img src={packC} alt=""/><b>HQs bônus</b><span>LIBERADO</span></article>
+      <article className="locked"><LockKeyhole/><b>Banca dos Games</b><span>DESBLOQUEAR</span></article>
+      <article className="locked"><LockKeyhole/><b>Coleções especiais</b><span>DESBLOQUEAR</span></article>
+    </div></div>
+   </div>
+  </div>
+ </section>
 
-      <section className="platform section dark-section">
-        <div className="section-heading light">
-          <span className="section-number">02 / POR DENTRO DA BANCA</span>
-          <h2>MEMÓRIA ANTIGA.<br/><em>EXPERIÊNCIA ATUAL.</em></h2>
-          <p>O produto não termina no checkout. A área de membros vira sua banca particular, com o que você comprou à mão e novas prateleiras para descobrir depois.</p>
-        </div>
-        <div className="platform-window">
-          <div className="window-top"><span/><span/><span/><b>BANCA DIGITAL / MINHAS PRATELEIRAS</b></div>
-          <div className="window-body">
-            <aside><strong>MINHA BANCA</strong><a className="active">Início</a><a>Minhas revistas</a><a>Bônus</a><a>Novidades</a></aside>
-            <div className="library">
-              <div className="library-head"><div><small>BOM TE VER POR AQUI</small><h3>Escolha uma prateleira</h3></div><span>⌕ Buscar na banca</span></div>
-              <div className="library-grid">
-                <div className="lib-card open"><BookOpen/><b>Revistas clássicas</b><small>LIBERADO</small></div>
-                <div className="lib-card open"><Gift/><b>HQs bônus</b><small>LIBERADO</small></div>
-                <div className="lib-card locked"><LockKeyhole/><b>Banca dos Games</b><small>COLEÇÃO EXTRA</small></div>
-                <div className="lib-card locked"><LockKeyhole/><b>Edições especiais</b><small>COLEÇÃO EXTRA</small></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p className="mockup-note">Demonstração visual da experiência. A organização final acompanha o catálogo real.</p>
-      </section>
+ <section className="bonus">
+  <div className="bonus-badge"><Gift/><b>BÔNUS</b><span>HQs DIGITAIS</span></div>
+  <div><small>ALÉM DAS REVISTAS</small><h2>ENTROU NA BANCA?<br/>TEM HQ TE ESPERANDO.</h2><p>Uma seleção de quadrinhos entra como bônus da oferta principal. A quantidade e os títulos serão exibidos quando o catálogo estiver fechado.</p></div>
+ </section>
 
-      <section className="included section">
-        <div className="section-heading">
-          <span className="section-number">03 / SUA COMPRA</span>
-          <h2>O QUE VOCÊ LEVA<br/><em>DA BANCA HOJE.</em></h2>
-        </div>
-        <div className="receipt">
-          <div className="receipt-head"><b>BANCA DIGITAL</b><span>COMPROVANTE DE ACESSO</span></div>
-          <div className="receipt-lines">
-            <div><span>Acervo principal de revistas</span><b>INCLUÍDO</b></div>
-            <div><span>Organização por coleções</span><b>INCLUÍDO</b></div>
-            <div><span>Acesso pela área de membros</span><b>INCLUÍDO</b></div>
-            <div><span>HQs selecionadas</span><b>BÔNUS</b></div>
-            <div><span>Acesso em múltiplos dispositivos</span><b>INCLUÍDO</b></div>
-          </div>
-          <div className="receipt-total"><span>SEM MENSALIDADE</span><strong>PAGAMENTO ÚNICO</strong></div>
-        </div>
-      </section>
+ <section className="offer" id="oferta">
+  <div className="offer-copy"><small>ACESSO À BANCA DIGITAL</small><h2>ESCOLHA UMA CAPA.<br/>DEPOIS OUTRA.<br/><em>E OUTRA.</em></h2><ul><li><Check/>acervo principal anunciado</li><li><Check/>categorias organizadas</li><li><Check/>HQs selecionadas de bônus</li><li><Check/>área de membros</li><li><Check/>acesso digital</li></ul></div>
+  <div className="price-card"><span>OFERTA LOW TICKET</span><small>pagamento único</small><div className="price">R$ <b>--,--</b></div><p>Preço final entra quando você definir a oferta.</p><a href="#checkout" className="cta">QUERO ENTRAR NA BANCA <span>→</span></a><div className="safe"><ShieldCheck/> compra protegida</div></div>
+ </section>
 
-      <section className="bonus">
-        <div className="bonus-inner">
-          <div><span className="section-number">04 / PRESENTE DO JORNALEIRO</span><h2>PASSOU NA BANCA?<br/><em>LEVA HQ DE BÔNUS.</em></h2><p>Uma seleção extra de quadrinhos para complementar a experiência. Sem transformar a oferta principal numa lista infinita de “bônus” que ninguém entende.</p></div>
-          <div className="bonus-ticket"><Gift/><small>BÔNUS DA CASA</small><strong>HQs<br/>DIGITAIS</strong><span>LIBERADAS COM A COMPRA</span></div>
-        </div>
-      </section>
-
-      <section id="oferta" className="offer section">
-        <div className="offer-card">
-          <div className="offer-left"><span className="stamp">OFERTA DE INAUGURAÇÃO</span><h2>SUA BANCA,<br/><em>SEMPRE À MÃO.</em></h2><p>Entre pelo low ticket, conheça o acervo e acesse sua coleção pela plataforma.</p><ul><li><Check/>Acesso ao acervo anunciado</li><li><Check/>HQs selecionadas de bônus</li><li><Check/>Área de membros organizada</li><li><Check/>Acesso digital após confirmação</li></ul></div>
-          <div className="offer-price"><small>VALOR DE LANÇAMENTO</small><div className="price-placeholder">R$ <b>--,--</b></div><p>Defina o preço final antes de publicar.</p><a className="cta big" href="#checkout">QUERO ENTRAR NA BANCA <span>→</span></a><div className="secure"><ShieldCheck/> Compra protegida • acesso digital</div></div>
-        </div>
-      </section>
-
-      <section className="guarantee section">
-        <ShieldCheck/>
-        <div><span className="section-number">COMPRA TRANQUILA</span><h2>7 DIAS PARA CONHECER A BANCA.</h2><p>Use esta seção somente se sua oferta/checkout realmente adotar a garantia anunciada. O texto final deve refletir as condições reais da venda.</p></div>
-      </section>
-
-      <section className="faq section">
-        <div className="section-heading"><span className="section-number">ÚLTIMA PÁGINA</span><h2>PERGUNTAS DE<br/><em>BALCÃO.</em></h2></div>
-        <div className="faq-list">{faq.map(([q,a]) => <details key={q}><summary>{q}<ChevronDown/></summary><p>{a}</p></details>)}</div>
-      </section>
-
-      <section className="final-cta">
-        <small>A BANCA ESTÁ ABERTA</small><h2>QUAL PRATELEIRA<br/>VOCÊ VAI ABRIR PRIMEIRO?</h2><CTA>ENTRAR NA BANCA DIGITAL</CTA>
-      </section>
-
-      <footer><div className="brand footer-brand"><span>BANCA</span><strong>DIGITAL</strong></div><p>Uma experiência digital inspirada nas bancas que marcaram gerações.</p><small>© 2026 • Conteúdo digital. Use somente materiais que você tenha direito de distribuir.</small></footer>
-    </main>
-  );
-}
+ <section className="faq"><div><small>ANTES DE ENTRAR</small><h2>DÚVIDAS RÁPIDAS.</h2></div><div>{faq.map(([q,a])=><details key={q}><summary>{q}<ChevronDown/></summary><p>{a}</p></details>)}</div></section>
+ <section className="closing"><small>A BANCA ESTÁ ABERTA</small><h2>QUAL REVISTA VOCÊ<br/>PROCURARIA PRIMEIRO?</h2><CTA>ENTRAR NA BANCA DIGITAL</CTA></section>
+ <footer><div className="logo"><b>BANCA</b><span>DIGITAL</span></div><p>Revistas de outras épocas em uma experiência digital organizada.</p><small>© 2026 • Conteúdo digital. Disponibilize somente materiais que você tenha direito de distribuir.</small></footer>
+ </main>}
