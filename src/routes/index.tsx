@@ -4,23 +4,57 @@ import heroImg from "@/assets/hero-magazines.jpg";
 import packA from "@/assets/pack-a.jpg";
 import packB from "@/assets/pack-b.jpg";
 import packC from "@/assets/pack-c.jpg";
+import acaoGames from "@/assets/covers/acao-games-111.jpg";
+import bizz from "@/assets/covers/bizz-1986.jpg";
+import mad from "@/assets/covers/mad-52.jpg";
+import mundoEstranho from "@/assets/covers/mundo-estranho-71.jpg";
+import placar from "@/assets/covers/placar-1994.jpg";
+import quatroRodas from "@/assets/covers/quatro-rodas-1988.png";
+import recreio from "@/assets/covers/recreio-247.jpg";
+import revistaXuxa from "@/assets/covers/revista-xuxa-1988.jpg";
+import superInteressante from "@/assets/covers/superinteressante-1996.jpg";
 
 export const Route=createFileRoute("/")({head:()=>({meta:[{title:"Banca Digital — Revistas antigas em uma banca online"},{name:"description",content:"Redescubra revistas antigas por categoria e época em uma banca digital organizada."}]}),component:Index});
 
-const coverPool=[heroImg,packA,packB,packC,packA,heroImg,packC,packB,heroImg,packC,packA,packB];
-const categories=[
- {name:"Esportes",sub:"Futebol, automobilismo e grandes momentos",covers:coverPool},
- {name:"Quentes",sub:"Publicações adultas e ensaios de outras épocas",covers:[...coverPool].reverse(),adult:true},
- {name:"Moda",sub:"Estilo, comportamento e tendências de cada década",covers:[packB,packA,heroImg,packC,...coverPool]},
- {name:"Adolescentes",sub:"Música, ídolos, comportamento e cultura jovem",covers:[packC,heroImg,packA,packB,...coverPool]},
+const classicCovers=[
+ recreio,
+ acaoGames,
+ placar,
+ quatroRodas,
+ bizz,
+ superInteressante,
+ mundoEstranho,
+ revistaXuxa,
+ mad,
 ];
+
+const coverPool=[
+ ...classicCovers,
+ recreio,
+ acaoGames,
+ placar,
+ superInteressante,
+ mundoEstranho,
+ bizz,
+];
+
+const categories=[
+ {name:"Clássicos da Banca",sub:"Recreio, Ação Games, Placar, Quatro Rodas, Bizz, MAD e outras capas que marcaram época",covers:classicCovers},
+ {name:"Esportes & Motores",sub:"Futebol, automobilismo e grandes momentos",covers:[placar,quatroRodas,placar,quatroRodas,...classicCovers]},
+ {name:"Quentes",sub:"Publicações adultas e ensaios de outras épocas",covers:[packA,packB,packC,heroImg,packB,packA,packC,heroImg],adult:true},
+ {name:"Moda & Cultura Pop",sub:"Música, comportamento, celebridades e tendências de cada década",covers:[bizz,revistaXuxa,mad,superInteressante,mundoEstranho,...classicCovers]},
+ {name:"Infância & Adolescentes",sub:"Recreio, games, ídolos e cultura jovem dos anos 80, 90 e 2000",covers:[recreio,acaoGames,revistaXuxa,bizz,mad,superInteressante,mundoEstranho,...classicCovers]},
+];
+
 const faq=[
  ["Como recebo as revistas?","Após a confirmação do pagamento, o acesso à área de membros é liberado conforme as instruções da oferta."],
  ["Posso acessar pelo celular?","Sim. A experiência foi pensada para celular, tablet e computador."],
  ["É assinatura?","A oferta principal será de pagamento único. O checkout final mostrará exatamente o que está incluído."],
  ["As coleções bloqueadas estão incluídas?","Não. Elas aparecem como novas coleções disponíveis dentro da plataforma e só são liberadas se você optar por comprá-las."],
 ];
+
 function CTA({children="QUERO ACESSAR A BANCA"}:{children?:React.ReactNode}){return <a className="cta" href="#oferta">{children}<span>→</span></a>}
+
 function CoverRail({category,sub,covers,reverse=false,adult=false}:{category:string;sub:string;covers:string[];reverse?:boolean;adult?:boolean}){
  const loop=[...covers,...covers];
  return <div className="rail-block">
@@ -28,6 +62,7 @@ function CoverRail({category,sub,covers,reverse=false,adult=false}:{category:str
   <div className={"cover-viewport "+(adult?"adult":"")}><div className={"cover-track "+(reverse?"reverse":"")}>{loop.map((src,i)=><div className="mag-cover" key={i}><img src={src} alt="" /><span>{adult?"18+":"EDIÇÃO DIGITAL"}</span></div>)}</div></div>
  </div>
 }
+
 function Index(){return <main>
  <div className="topline">BANCA DIGITAL <span>•</span> REVISTAS DE OUTRAS ÉPOCAS, ORGANIZADAS PARA REDESCOBRIR</div>
  <header><a className="logo" href="#top"><b>BANCA</b><span>DIGITAL</span></a><nav><a href="#categorias">Categorias</a><a href="#plataforma">Como funciona</a><a href="#oferta">Acesso</a></nav><a className="mini-cta" href="#oferta">ENTRAR NA BANCA</a></header>
@@ -52,7 +87,7 @@ function Index(){return <main>
   </div>
  </section>
 
- <section className="hook"><span>QUAL ERA A SUA PRATELEIRA?</span><b>ESPORTE</b><i>•</i><b>MODA</b><i>•</i><b>ADOLESCENTES</b><i>•</i><b>HQs</b><i>•</i><b>VARIEDADES</b></section>
+ <section className="hook"><span>QUAL ERA A SUA PRATELEIRA?</span><b>CLÁSSICOS</b><i>•</i><b>ESPORTE</b><i>•</i><b>MODA</b><i>•</i><b>ADOLESCENTES</b><i>•</i><b>HQs</b><i>•</i><b>VARIEDADES</b></section>
 
  <section className="discovery" id="categorias">
   <div className="intro"><small>ENTRE E OLHE À VONTADE</small><h2>UMA BANCA NÃO É FEITA DE TRÊS CARDS.<br/><em>É FEITA DE CAPAS.</em></h2><p>Aqui o produto aparece antes da explicação: fileiras de revistas, separadas como você procuraria numa banca de verdade.</p></div>
@@ -66,7 +101,7 @@ function Index(){return <main>
 
  <section className="showcase">
   <div className="showcase-copy"><small>NÃO É SÓ QUANTIDADE</small><h2>É ABRIR UMA CAPA<br/>E LEMBRAR NA HORA.</h2><p>O tamanho do acervo entra como prova de valor. O desejo vem de reconhecer uma época, uma capa, um assunto que você não via há anos.</p><CTA>QUERO VER MINHA BANCA</CTA></div>
-  <div className="cover-wall">{coverPool.slice(0,9).map((src,i)=><img src={src} alt="" key={i}/>)}</div>
+  <div className="cover-wall">{classicCovers.map((src,i)=><img src={src} alt="" key={i}/>)}</div>
  </section>
 
  <section className="platform" id="plataforma">
@@ -76,8 +111,8 @@ function Index(){return <main>
    <div className="app-body">
     <aside><b>Minha banca</b><span className="on">Início</span><span>Revistas</span><span>Bônus</span><span>Novidades</span></aside>
     <div className="app-content"><div className="app-title"><small>CONTINUE EXPLORANDO</small><h3>Suas coleções</h3></div><div className="app-cards">
-      <article><img src={packA} alt=""/><b>Revistas clássicas</b><span>LIBERADO</span></article>
-      <article><img src={packC} alt=""/><b>HQs bônus</b><span>LIBERADO</span></article>
+      <article><img src={recreio} alt="Capa de revista clássica"/><b>Revistas clássicas</b><span>LIBERADO</span></article>
+      <article><img src={packC} alt="HQs bônus"/><b>HQs bônus</b><span>LIBERADO</span></article>
       <article className="locked"><LockKeyhole/><b>Banca dos Games</b><span>DESBLOQUEAR</span></article>
       <article className="locked"><LockKeyhole/><b>Coleções especiais</b><span>DESBLOQUEAR</span></article>
     </div></div>
