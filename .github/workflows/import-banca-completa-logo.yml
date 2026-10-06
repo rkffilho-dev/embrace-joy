@@ -1,0 +1,38 @@
+name: Import Banca Completa logo
+
+on:
+  push:
+    branches:
+      - add-banca-completa-logo-20261006
+
+permissions:
+  contents: write
+
+jobs:
+  import-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: add-banca-completa-logo-20261006
+          fetch-depth: 0
+
+      - name: Decode logo asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/assets/banca-retro
+          base64 -d .asset-import/logo-banca-completa-quiosque.b64.txt > public/assets/banca-retro/logo-banca-completa-quiosque.webp
+          rm -rf .asset-import
+          rm -f .github/workflows/import-banca-completa-logo.yml
+
+      - name: Commit logo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add Banca Completa hero logo"
+          git push origin HEAD:add-banca-completa-logo-20261006
